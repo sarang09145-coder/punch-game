@@ -1,70 +1,55 @@
-# 당신 안의 S성향을 꺼내보세요
+# 펀치 게임 — 3명 × 3방향 사진 반응 버전
 
-세 캐릭터 중 하나를 골라 **왼쪽 뺨 / 정면 / 오른쪽 뺨**을 눌러보는 브라우저 미니 시뮬레이션입니다.
+## 이번 수정 내용
 
-## 적용된 캐릭터
+- **평평이, 버럭씨, 아방이**의 3방향 반응 사진 **총 9장** 추가
+- `왼쪽 뺨`, `정면 펀치`, `오른쪽 뺨` 클릭 시 해당 사진으로 **약 1초간 전환**, 이후 기본 사진 복귀
+- 대사, 버럭씨의 💢, 아방이의 💧, 효과음, 댓글창 유지
+- 중복 주먹 이모지는 제거했어요. 반응 사진에 이미 손이 등장합니다.
+- 댓글 서비스는 GitHub Issues를 사용하는 Utterances이며, 설치 및 Issues 활성화가 따로 필요해요.
 
-사용자가 전달한 이미지 3장을 아래와 같이 적용했습니다.
+## 3방향 이미지 연결표
 
-- **평평이** → 첫 번째 첨부 이미지
-- **버럭이(버럭씨)** → 두 번째 첨부 이미지
-- **아방이** → 세 번째 첨부 이미지
+| 캐릭터 | 왼쪽 뺨 | 정면 펀치 | 오른쪽 뺨 |
+|---|---|---|---|
+| 버럭씨 | `reactions/beoreok-left.webp` | `reactions/beoreok-front.webp` | `reactions/beoreok-right.webp` |
+| 평평이 | `reactions/flat-left.webp` | `reactions/flat-front.webp` | `reactions/flat-right.webp` |
+| 아방이 | `reactions/abang-left.webp` | `reactions/abang-front.webp` | `reactions/abang-right.webp` |
 
-세 이미지는 `characters/*.png` 파일로 정리되어 있으며, 배경을 제거한 투명 PNG로 들어 있습니다.
+정면, 왼쪽, 오른쪽 사진의 배정은 사용자가 제공한 순서대로 맞췄습니다.
 
-## 기능
+## GitHub Pages 업데이트
 
-- 캐릭터 3명 선택
-- **왼쪽 뺨 / 정면 / 오른쪽 뺨** 펀치
-- 캐릭터별 다른 반응
-  - **버럭이**: `갑자기 왜 때려!`, `장난하냐!` + 💢
-  - **아방이**: `왜 그래...`, `아파....` + 💧
-  - **평평이**: `으악!`, `으악, 으악!`
-- 최근 리액션 기록
-- 총 펀치 횟수 / 캐릭터별 맞은 횟수
-- 효과음 ON/OFF
-- 키보드 조작 지원 (`A` / `S` / `D`)
-- 모바일 / 데스크톱 반응형 지원
+1. 압축을 **해제**합니다.
+2. `punch-game` 저장소의 **Code → Add file → Upload files**에서 **ZIP 안 내용물**을 업로드합니다. `index.html`이 저장소 **최상위**에 있어야 하고, `reactions` **폴더 구조는 유지**해야 합니다.
+3. **Commit changes**를 눌러 저장하세요. 기존 파일과 같은 이름은 업데이트되도록 확인하세요.
+4. 배포가 완료되면 `https://sarang09145-coder.github.io/punch-game/`을 새로고침합니다. 예전 화면이 남는다면 강력 새로고침(Ctrl+F5)도 해보세요.
 
-## 파일 구조
+`Deploy from a branch`를 **다시 설정할 필요는 없습니다.**
+
+## 폴더 구조
 
 ```text
-punch-lab/
-├─ index.html
-├─ style.css
-├─ script.js
-├─ README.md
-└─ characters/
-   ├─ beoreok.png
-   ├─ abang.png
-   ├─ flat.png
-   ├─ beoreok.svg
-   ├─ abang.svg
-   └─ flat.svg
+punch-game/
+├── index.html
+├── script.js
+├── style.css
+├── README.md
+├── flat.png
+├── beoreok.png
+├── abang.png
+└── reactions/
+    ├── flat-left.webp
+    ├── flat-front.webp
+    ├── flat-right.webp
+    ├── beoreok-left.webp
+    ├── beoreok-front.webp
+    ├── beoreok-right.webp
+    ├── abang-left.webp
+    ├── abang-front.webp
+    └── abang-right.webp
 ```
 
-`.png` 파일이 실제 적용 이미지이며, `.svg` 파일은 예비용 기본 캐릭터입니다.
+## 이미지 교체하기
 
-## 실행 방법
-
-그냥 `index.html`을 브라우저로 열어도 되고, 로컬 서버를 써도 됩니다.
-
-```bash
-python -m http.server 8000
-```
-
-이후 브라우저에서 `http://localhost:8000` 접속.
-
-## GitHub Pages 배포
-
-1. GitHub에 새 저장소 생성
-2. 이 폴더 안의 파일 전체 업로드
-3. **Settings → Pages** 이동
-4. **Deploy from a branch** 선택
-5. **main / (root)** 선택 후 저장
-
-배포가 끝나면 GitHub Pages 주소에서 바로 확인할 수 있습니다.
-
-## 참고
-
-이 프로젝트는 장난용 인터랙션 웹사이트입니다. 실제 폭력 행동을 권장하지 않습니다.
+원하는 반응을 바꾸려면 `reactions/` 폴더의 **같은 파일명**으로 교체하면 됩니다. WEBP를 직접 만들기 어렵다면 `script.js`의 `reactionPath()` 함수 확장자 `.webp`를 `.png`로 바꾸고 같은 이름의 PNG 파일을 올려도 됩니다.

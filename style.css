@@ -14,3 +14,20 @@
 @media(max-width:760px){.site{padding:0 12px}.site>h1{margin:27px 0 25px}.game{grid-template-columns:1fr}.chooser{padding:14px}.choices{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.character-option{padding:8px 5px;flex-direction:column;text-align:center;gap:5px}.character-option.active{padding:7px 4px}.thumb{width:100%;height:90px}.character-option strong{font-size:13px}.character-option small{font-size:10px;line-height:1.4;margin-top:4px}.stage{height:418px}.portrait-space{inset:110px 0 0}.portrait{width:90%;height:calc(100% + 10px)}.speech{top:68px;font-size:16px}.comments{padding:24px 16px}.topbar{padding:18px 0 14px}}
 @media(max-width:360px){.punch-options button{font-size:12px}.thumb{height:75px}.stage{height:385px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* Reaction photos are shown a little larger than the transparent idle portraits.
+   White backgrounds blend into the minimal stage, while all photos retain their original framing. */
+.stage.show-reaction{background:#fdfdfe}
+.portrait.is-reaction{
+  width:min(480px,94%);
+  height:calc(100% + 12px);
+  object-fit:cover;
+  object-position:center 28%;
+  filter:none;
+  border-radius:12px 12px 0 0;
+}
+/* Direction-specific image already depicts movement; avoid animating an additional large impact. */
+.stage.show-reaction .portrait.is-reaction{animation:none}
+@media(max-width:760px){
+  .portrait.is-reaction{width:min(410px,96%);object-position:center 28%}
+}
