@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 660" role="img" aria-labelledby="title">
+<title id="title">평평이 — 네모난 얼굴에 무표정한 초록색 만화 캐릭터</title>
+<defs><linearGradient id="face" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#ecf1c8"/><stop offset="1" stop-color="#b9d6a6"/></linearGradient><linearGradient id="body" x1="0" x2=".8" y1="0" y2="1"><stop stop-color="#5b8a7e"/><stop offset="1" stop-color="#354e60"/></linearGradient></defs>
+<path d="M87 660c1-138 48-211 152-222h65c101 10 149 83 149 222" fill="url(#body)" stroke="#3e5e5b" stroke-width="11"/>
+<path d="M216 414v83q53 30 104 0v-83" fill="#c2d8ad" stroke="#637a62" stroke-width="9"/>
+<rect x="97" y="118" width="346" height="337" rx="56" fill="url(#face)" stroke="#637a62" stroke-width="11"/>
+<path d="M99 176q-4-122 110-128h136q105 6 98 128l-41-25-21-45-69 33-47-22-67 34-43-40-18 53Z" fill="#56665c" stroke="#344940" stroke-width="10" stroke-linejoin="round"/>
+<path d="M190 280h55m62 0h56" fill="none" stroke="#44544a" stroke-width="12" stroke-linecap="round"/>
+<circle cx="219" cy="310" r="10" fill="#344c42"/><circle cx="335" cy="310" r="10" fill="#344c42"/>
+<path d="M254 348h28" stroke="#86a288" stroke-width="8" stroke-linecap="round"/>
+<path d="M233 394h75" stroke="#485e51" stroke-width="10" stroke-linecap="round"/>
+<path d="M137 348h21m228 0h17" stroke="#94ad88" stroke-width="8" stroke-linecap="round"/>
+<path d="M150 558h246" stroke="#9ec4ac" stroke-width="7" opacity=".5"/>
+<path d="M239 531h59v129h-59z" fill="#b1cdaf" opacity=".2"/>
+</svg>

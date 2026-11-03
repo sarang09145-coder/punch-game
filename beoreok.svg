@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 660" role="img" aria-labelledby="title">
+<title id="title">버럭씨 — 빨간 머리에 화난 표정의 만화 캐릭터</title>
+<defs><linearGradient id="shirt" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#9d647c"/><stop offset="1" stop-color="#553d74"/></linearGradient><linearGradient id="skin" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#ffc6a9"/><stop offset="1" stop-color="#ffa27f"/></linearGradient></defs>
+<path d="M82 660c-5-142 46-222 164-234h54c118 12 170 92 164 234" fill="url(#shirt)" stroke="#513c56" stroke-width="11" stroke-linejoin="round"/>
+<path d="M166 472c38 45 172 46 209-3" fill="none" stroke="#ddabc7" stroke-width="12" stroke-linecap="round"/>
+<path d="M217 411v83c26 25 82 25 107-1v-85" fill="url(#skin)" stroke="#9a5960" stroke-width="9"/>
+<path d="M104 241c-42-23-58 46-24 77 12 10 26 9 40 3M431 241c42-23 58 46 24 77-12 10-26 9-40 3" fill="#ffad90" stroke="#9a5960" stroke-width="9"/>
+<path d="M121 196c4-97 56-148 149-148 91 0 150 53 151 148l12 93c5 107-66 171-163 171-103 0-173-69-161-172Z" fill="url(#skin)" stroke="#9a5960" stroke-width="11"/>
+<path d="M109 207l-20-55 52 10-9-72 52 21 33-66 44 36 48-52 24 49 65-39-6 62 51 8-32 48 12 49-45-29-27-40-48 23-61-6-44 35-32-31-24 44Z" fill="#d75c57" stroke="#713f51" stroke-width="10" stroke-linejoin="round"/>
+<path d="m179 257 72 21m110-21-72 21" stroke="#603742" stroke-width="16" stroke-linecap="round" fill="none"/>
+<path d="M197 303c15-12 31-12 44 0m60 0c12-12 30-12 44 0" stroke="#4b3542" stroke-width="12" stroke-linecap="round" fill="none"/>
+<ellipse cx="168" cy="340" rx="31" ry="14" fill="#ec706e" opacity=".45"/><ellipse cx="372" cy="340" rx="31" ry="14" fill="#ec706e" opacity=".45"/>
+<path d="M246 344c8 7 37 7 46 0" stroke="#cf7c76" fill="none" stroke-width="8" stroke-linecap="round"/>
+<path d="M227 385c17-14 64-17 86-2l-2 21c-22-7-53-6-81 1Z" fill="#743b4a" stroke="#743b4a" stroke-width="7" stroke-linejoin="round"/>
+<path d="M145 536c22 13 47 16 66 16M329 552c23 2 43-4 62-15" fill="none" stroke="#c59eb8" opacity=".7" stroke-width="8" stroke-linecap="round"/>
+<path d="M245 524v136M292 524v136" stroke="#4d395d" stroke-width="7" opacity=".35"/>
+</svg>
