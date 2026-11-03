@@ -1,118 +1,74 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#f5f5f7" />
-  <meta name="description" content="세 캐릭터 중 하나를 골라 펀치 리액션을 확인하는 미니 웹사이트" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f6f8">
+  <meta name="description" content="세 캐릭터의 코믹한 펀치 리액션 미니게임">
   <title>당신 안의 S성향을 꺼내보세요</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <div class="background-grain" aria-hidden="true"></div>
-  <div class="page">
-    <header class="topbar">
-      <a class="brand" href="./" aria-label="홈으로 이동">
-        <span class="brand-mark">S</span>
-        <span class="brand-name">S PUNCH SIM</span>
-      </a>
-      <div class="topbar-right">
-        <span>FUN ONLY</span>
+  <div class="site">
+    <header class="topbar"><a href="./" class="logo">S PUNCH SIM</a><span>FOR FUN ONLY</span></header>
+    <h1>당신 안의 <span>S성향</span>을 꺼내보세요</h1>
+
+    <main class="game">
+      <aside class="chooser" aria-label="캐릭터 선택">
+        <h2>캐릭터 선택</h2>
+        <div class="choices">
+          <button class="character-option" data-character="flat" type="button" aria-pressed="false">
+            <span class="thumb"><img src="flat.png" alt="" data-fallback="flat.svg"></span>
+            <span><strong>평평이</strong><small>😐 으악!</small></span>
+          </button>
+          <button class="character-option active" data-character="beoreok" type="button" aria-pressed="true">
+            <span class="thumb"><img src="beoreok.png" alt="" data-fallback="beoreok.svg"></span>
+            <span><strong>버럭이</strong><small>💢 장난하냐!</small></span>
+          </button>
+          <button class="character-option" data-character="abang" type="button" aria-pressed="false">
+            <span class="thumb"><img src="abang.png" alt="" data-fallback="abang.svg"></span>
+            <span><strong>아방이</strong><small>💧 아파....</small></span>
+          </button>
+        </div>
+      </aside>
+
+      <div class="play-column">
+        <section class="stage" id="stage" aria-label="캐릭터 반응 화면">
+          <div class="stage-top"><strong id="character-name">버럭이</strong><span>REACTION SIMULATOR</span></div>
+          <div class="speech" id="speech" role="status" aria-live="polite">왜 불렀는데?</div>
+          <div class="portrait-space">
+            <div class="portrait-glow"></div>
+            <img id="portrait" class="portrait" src="beoreok.png" alt="버럭이" draggable="false">
+            <div id="effects" class="effects" aria-hidden="true"></div>
+          </div>
+        </section>
+        <section class="controls" aria-label="펀치 방향 선택">
+          <h2>어디로 펀치?</h2>
+          <div class="punch-options">
+            <button type="button" data-punch="left"><span aria-hidden="true">👊</span>왼쪽 뺨<small>A</small></button>
+            <button type="button" data-punch="front" class="primary"><span aria-hidden="true">👊</span>정면 펀치<small>S</small></button>
+            <button type="button" data-punch="right"><span aria-hidden="true">👊</span>오른쪽 뺨<small>D</small></button>
+          </div>
+          <label class="sound"><input type="checkbox" id="sound"> 효과음 켜기</label>
+        </section>
       </div>
-    </header>
-
-    <div class="intro">
-      <div class="eyebrow">SELECT A CHARACTER</div>
-      <h1>당신 안의 <span class="scribble">S성향</span>을 꺼내보세요</h1>
-    </div>
-
-    <main class="game-layout">
-      <aside class="panel character-panel" aria-labelledby="character-heading">
-        <div class="panel-heading">
-          <div>
-            <span class="section-kicker">CHARACTER</span>
-            <h2 id="character-heading">캐릭터 선택</h2>
-          </div>
-        </div>
-
-        <div class="character-list" id="character-list">
-          <button class="character-option" data-character="flat" aria-pressed="false" type="button">
-            <span class="option-image option-image--flat"><img src="characters/flat.png" data-fallback="characters/flat.svg" alt="평평이 얼굴" /></span>
-            <span class="option-copy"><strong>평평이</strong><small>무덤덤 만렙 <span aria-hidden="true">😐</span></small></span>
-            <span class="option-check" aria-hidden="true">✓</span>
-          </button>
-          <button class="character-option is-selected" data-character="beoreok" aria-pressed="true" type="button">
-            <span class="option-image option-image--angry"><img src="characters/beoreok.png" data-fallback="characters/beoreok.svg" alt="버럭씨 얼굴" /></span>
-            <span class="option-copy"><strong>버럭씨</strong><small>분노 충전 완료 <span aria-hidden="true">💢</span></small></span>
-            <span class="option-check" aria-hidden="true">✓</span>
-          </button>
-          <button class="character-option" data-character="abang" aria-pressed="false" type="button">
-            <span class="option-image option-image--sad"><img src="characters/abang.png" data-fallback="characters/abang.svg" alt="아방이 얼굴" /></span>
-            <span class="option-copy"><strong>아방이</strong><small>눈물이 또르르 <span aria-hidden="true">💧</span></small></span>
-            <span class="option-check" aria-hidden="true">✓</span>
-          </button>
-        </div>
-      </aside>
-
-      <section class="arena-column" aria-labelledby="arena-heading">
-        <div class="arena-heading">
-          <span class="section-kicker">PLAY</span>
-          <span class="arena-status"><span aria-hidden="true">●</span> READY</span>
-        </div>
-        <div class="arena" id="arena">
-          <div class="arena-deco deco-one" aria-hidden="true">✳</div>
-          <div class="arena-deco deco-two" aria-hidden="true">✦</div>
-          <div class="arena-grid" aria-hidden="true"></div>
-          <div class="arena-header">
-            <div class="name-chip"><strong id="character-name">버럭씨</strong><span id="character-tag">참을성 0%</span></div>
-            <span class="arena-index">No. <span id="character-number">01</span></span>
-          </div>
-          <h2 id="arena-heading" class="sr-only">펀치 플레이 화면</h2>
-          <div class="speech-bubble" id="speech-bubble" role="status" aria-live="polite" aria-atomic="true">어디 한번 해보시지!</div>
-          <div class="portrait-area" id="portrait-area">
-            <div class="portrait-halo" aria-hidden="true"></div>
-            <div class="portrait-ground" aria-hidden="true"></div>
-            <div class="character-wrap" id="character-wrap">
-              <img id="character-portrait" src="characters/beoreok.png" alt="현재 선택한 캐릭터 버럭씨" draggable="false" />
-            </div>
-            <div class="effect-layer" id="effect-layer" aria-hidden="true"></div>
-            <div class="hit-zones" aria-label="캐릭터를 직접 눌러보세요">
-              <button class="hit-zone" data-direction="left" aria-label="왼쪽 뺨 펀치" type="button"><span>왼쪽</span></button>
-              <button class="hit-zone" data-direction="front" aria-label="정면 펀치" type="button"><span>정면</span></button>
-              <button class="hit-zone" data-direction="right" aria-label="오른쪽 뺨 펀치" type="button"><span>오른쪽</span></button>
-            </div>
-          </div>
-        </div>
-
-        <div class="controls" aria-label="펀치 컨트롤">
-          <div class="controls-top">
-            <div><span class="section-kicker">PUNCH</span><h2>어디로 때릴까?</h2></div>
-            <span class="keys-note">키보드 <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></span>
-          </div>
-          <div class="punch-buttons">
-            <button type="button" class="punch-button" data-direction="left"><span class="punch-icon" aria-hidden="true">👊</span><span class="punch-label">왼쪽 뺨<small>LEFT / A</small></span></button>
-            <button type="button" class="punch-button punch-button--main" data-direction="front"><span class="punch-icon" aria-hidden="true">👊</span><span class="punch-label">정면 펀치<small>FRONT / S</small></span></button>
-            <button type="button" class="punch-button" data-direction="right"><span class="punch-icon" aria-hidden="true">👊</span><span class="punch-label">오른쪽 뺨<small>RIGHT / D</small></span></button>
-          </div>
-        </div>
-      </section>
-
-      <aside class="panel stats-panel" aria-labelledby="stats-heading">
-        <div class="panel-heading">
-          <div><span class="section-kicker">STATUS</span><h2 id="stats-heading">실험 기록</h2></div>
-        </div>
-        <div class="score-card"><span>총 펀치 횟수</span><strong id="total-count">0</strong><span class="score-unit">TOTAL</span></div>
-        <div class="selected-stat"><span>현재 캐릭터</span><strong><span id="selected-stat-name">버럭씨</span> <span class="selected-stat-emote" id="selected-stat-emoji">💢</span></strong><small>맞은 횟수 <b id="character-count">0</b>회</small></div>
-        <div class="history-heading"><h3>최근 리액션</h3><span>RECENT</span></div>
-        <ol class="reaction-log" id="reaction-log"><li class="empty-log">아직 아무 일도 없어요. <span aria-hidden="true">👀</span></li></ol>
-        <div class="options-area">
-          <label class="sound-toggle" for="sound-switch"><span>효과음 <small>ON / OFF</small></span><span class="switch-wrap"><input id="sound-switch" type="checkbox" /><span class="switch-track" aria-hidden="true"></span></span></label>
-          <button class="reset-button" id="reset-button" type="button">↻ 기록 초기화</button>
-        </div>
-      </aside>
     </main>
-    <footer><span>FOR FUN ONLY</span></footer>
+
+    <section class="comments" aria-labelledby="comments-heading">
+      <div class="comments-title"><h2 id="comments-heading">한마디 남기기 💬</h2><p>어떤 캐릭터가 제일 웃겼어?</p></div>
+      <div class="comments-widget">
+        <script src="https://utteranc.es/client.js"
+          repo="sarang09145-coder/punch-game"
+          issue-term="pathname"
+          theme="github-light"
+          crossorigin="anonymous"
+          async></script>
+        <noscript>댓글을 보려면 JavaScript를 켜주세요.</noscript>
+      </div>
+      <p class="comments-note">댓글을 쓰려면 GitHub 계정으로 로그인해야 해요.</p>
+    </section>
+    <footer>JUST FOR FUN · MADE IN 2026</footer>
   </div>
 </body>
 </html>

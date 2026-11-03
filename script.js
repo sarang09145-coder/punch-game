@@ -1,269 +1,114 @@
-/**
- * PUNCH LAB — 순수 HTML/CSS/JavaScript 웹게임
- * 본인의 캐릭터 이미지는 characters/beoreok.png, abang.png, flat.png 에 넣으세요.
- * PNG가 없으면 기본 SVG 예시 그림을 자동으로 사용합니다.
- */
-
+// 이미지 경로: 현재 저장소에 실제로 올라간 최상위 PNG를 우선 사용
 const CHARACTERS = {
-  beoreok: {
-    name: '버럭씨', number: '01', tag: '참을성 0%', emoji: '💢',
-    responses: ['갑자기 왜 때려!', '장난하냐!'],
-    intro: '어디 한번 해보시지!', impact: '퍽!', emotion: 'angry'
-  },
-  abang: {
-    name: '아방이', number: '02', tag: '울보 모드', emoji: '💧',
-    responses: ['왜 그래...', '아파....'],
-    intro: '나... 왜 불렀어?', impact: '콩!', emotion: 'sad'
-  },
-  flat: {
-    name: '평평이', number: '03', tag: '무덤덤 만렙', emoji: '😐',
-    responses: ['으악!', '으악, 으악!'],
-    intro: '......', impact: '퐁!', emotion: 'flat'
-  }
+  flat: {name:'평평이',intro:'......',responses:['으악!','으악, 으악!'],impact:'퐁!',emotion:'flat'},
+  beoreok: {name:'버럭이',intro:'왜 불렀는데?',responses:['갑자기 왜 때려!','장난하냐!'],impact:'퍽!',emotion:'angry'},
+  abang: {name:'아방이',intro:'나... 왜 불렀어?',responses:['왜 그래...','아파....'],impact:'콩!',emotion:'sad'}
 };
+const stage=document.querySelector('#stage');
+const portrait=document.querySelector('#portrait');
+const speech=document.querySelector('#speech');
+const effects=document.querySelector('#effects');
+const characterName=document.querySelector('#character-name');
+const soundToggle=document.querySelector('#sound');
+let selected='beoreok';
+let animationTimer=null;
+let portraitRequest=0;
+let audioCtx=null;
+const responseIndex={flat:-1,beoreok:-1,abang:-1};
 
-const DIRECTIONS = {
-  left: '왼쪽 뺨', front: '정면', right: '오른쪽 뺨'
-};
-
-const STORAGE_KEY = 'punch-lab-scores-v1';
-const $ = selector => document.querySelector(selector);
-const $$ = selector => Array.from(document.querySelectorAll(selector));
-
-function loadScores() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (!saved || typeof saved !== 'object') throw Error('empty');
-    const counts = {};
-    for (const id of Object.keys(CHARACTERS)) {
-      counts[id] = Number.isSafeInteger(saved.counts?.[id]) && saved.counts[id] >= 0
-        ? saved.counts[id] : 0;
-    }
-    return counts;
-  } catch {
-    return { beoreok: 0, abang: 0, flat: 0 };
+function useFirstImageThatWorks(img, paths, current=0, stillCurrent=()=>true){
+  if(current>=paths.length){img.removeAttribute('src');return;}
+  const test=new Image();
+  test.onload=()=>{if(stillCurrent()) img.src=paths[current];};
+  test.onerror=()=>{if(stillCurrent()) useFirstImageThatWorks(img,paths,current+1,stillCurrent);};
+  test.src=paths[current];
+}
+function imagesFor(id){
+  return [`${id}.png`,`characters/${id}.png`,`${id}.svg`,`characters/${id}.svg`];
+}
+// 선택 카드도 같은 실제 사진을 사용
+for(const img of document.querySelectorAll('.thumb img')){
+  const id=img.closest('[data-character]').dataset.character;
+  useFirstImageThatWorks(img,imagesFor(id));
+}
+function selectCharacter(id){
+  if(!Object.hasOwn(CHARACTERS,id))return;
+  selected=id;
+  const nonce=++portraitRequest;
+  for(const button of document.querySelectorAll('[data-character]')){
+    const active=button.dataset.character===id;
+    button.classList.toggle('active',active);
+    button.setAttribute('aria-pressed',String(active));
   }
+  stage.classList.remove('hit-left','hit-front','hit-right');
+  effects.replaceChildren();
+  clearTimeout(animationTimer);
+  portrait.alt=CHARACTERS[id].name;
+  useFirstImageThatWorks(portrait,imagesFor(id),0,()=>nonce===portraitRequest);
+  characterName.textContent=CHARACTERS[id].name;
+  say(CHARACTERS[id].intro,false);
 }
-
-const state = {
-  selected: 'beoreok',
-  counts: loadScores(),
-  history: [],
-  sound: false,
-  animationTimer: null,
-  imageRequestId: 0,
-  lastResponseIndex: { beoreok: -1, abang: -1, flat: -1 }
-};
-
-const ui = {
-  arena: $('#arena'),
-  portrait: $('#character-portrait'),
-  effect: $('#effect-layer'),
-  bubble: $('#speech-bubble'),
-  characterName: $('#character-name'),
-  characterTag: $('#character-tag'),
-  number: $('#character-number'),
-  total: $('#total-count'),
-  selectedName: $('#selected-stat-name'),
-  selectedEmoji: $('#selected-stat-emoji'),
-  selectedCount: $('#character-count'),
-  log: $('#reaction-log'),
-  sound: $('#sound-switch'),
-  reset: $('#reset-button')
-};
-
-function assetPaths(id) {
-  return {
-    png: `characters/${id}.png`,
-    svg: `characters/${id}.svg`
-  };
+function say(text,animate=true){
+  speech.textContent=text;
+  speech.classList.remove('pop');
+  if(animate){void speech.offsetWidth;speech.classList.add('pop');}
 }
-
-// 이미지 파일이 있으면 사용자 PNG 적용, 없으면 기본 그림 사용
-function upgradeImageIfAvailable(imgElement, id, requestId = null) {
-  const { png } = assetPaths(id);
-  const trial = new Image();
-  trial.onload = () => {
-    if (requestId !== null && requestId !== state.imageRequestId) return;
-    imgElement.src = png;
-  };
-  trial.onerror = () => {}; // PNG가 없어도 정상 작동
-  trial.src = png;
+function addEffect(cssClass,text){
+  const el=document.createElement('span');
+  el.className=cssClass;
+  el.textContent=text;
+  effects.appendChild(el);
 }
-
-function refreshScores() {
-  const total = Object.values(state.counts).reduce((a, b) => a + b, 0);
-  ui.total.textContent = total.toLocaleString('ko-KR');
-  ui.selectedCount.textContent = state.counts[state.selected].toLocaleString('ko-KR');
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ counts: state.counts })); } catch { /* private mode */ }
+function sound(){
+  if(!soundToggle.checked)return;
+  try{
+    const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+    if(!AudioContextClass)return;
+    audioCtx??=new AudioContextClass();
+    if(audioCtx.state==='suspended')audioCtx.resume();
+    const now=audioCtx.currentTime;
+    const osc=audioCtx.createOscillator();
+    const gain=audioCtx.createGain();
+    osc.type='triangle';
+    osc.frequency.setValueAtTime(140,now);
+    osc.frequency.exponentialRampToValueAtTime(62,now+.12);
+    gain.gain.setValueAtTime(.0001,now);
+    gain.gain.exponentialRampToValueAtTime(.065,now+.01);
+    gain.gain.exponentialRampToValueAtTime(.0001,now+.14);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start(now);osc.stop(now+.15);
+  }catch(_){/* 소리 없이 게임 진행 */}
 }
-
-function selectCharacter(id) {
-  if (!Object.hasOwn(CHARACTERS, id)) return;
-  const ch = CHARACTERS[id];
-  state.selected = id;
-  state.imageRequestId += 1;
-  const requestId = state.imageRequestId;
-
-  $$('.character-option').forEach(button => {
-    const active = button.dataset.character === id;
-    button.classList.toggle('is-selected', active);
-    button.setAttribute('aria-pressed', String(active));
-  });
-
-  ui.arena.dataset.character = id;
-  ui.arena.classList.remove('hit-left', 'hit-front', 'hit-right');
-  ui.effect.replaceChildren();
-  ui.portrait.src = assetPaths(id).svg;
-  ui.portrait.alt = `현재 선택한 캐릭터 ${ch.name}`;
-  upgradeImageIfAvailable(ui.portrait, id, requestId);
-  ui.characterName.textContent = ch.name;
-  ui.characterTag.textContent = ch.tag;
-  ui.number.textContent = ch.number;
-  ui.selectedName.textContent = ch.name;
-  ui.selectedEmoji.textContent = ch.emoji;
-  setSpeech(ch.intro, false);
-  refreshScores();
+function punch(direction){
+  if(!['left','front','right'].includes(direction))return;
+  const c=CHARACTERS[selected];
+  responseIndex[selected]=(responseIndex[selected]+1)%c.responses.length;
+  say(c.responses[responseIndex[selected]]);
+  clearTimeout(animationTimer);
+  effects.replaceChildren();
+  stage.classList.remove('hit-left','hit-front','hit-right');
+  void stage.offsetWidth;
+  stage.classList.add('hit-'+direction);
+  addEffect('fist fist--'+direction,'👊');
+  addEffect('impact',c.impact);
+  if(c.emotion==='angry')addEffect('emote','💢');
+  if(c.emotion==='sad'){addEffect('tear left','💧');addEffect('tear right','💧');}
+  sound();
+  animationTimer=setTimeout(()=>{
+    effects.replaceChildren();
+    stage.classList.remove('hit-left','hit-front','hit-right');
+  },1050);
 }
-
-function setSpeech(text, animate = true) {
-  ui.bubble.textContent = text;
-  ui.bubble.classList.remove('pop');
-  if (animate) {
-    void ui.bubble.offsetWidth;
-    ui.bubble.classList.add('pop');
-  }
+for(const button of document.querySelectorAll('[data-character]')){
+  button.addEventListener('click',()=>selectCharacter(button.dataset.character));
 }
-
-function nextResponse(id) {
-  const lines = CHARACTERS[id].responses;
-  // 동일한 대사가 바로 연속되지 않도록 순서대로 번갈아 재생
-  state.lastResponseIndex[id] = (state.lastResponseIndex[id] + 1) % lines.length;
-  return lines[state.lastResponseIndex[id]];
+for(const button of document.querySelectorAll('[data-punch]')){
+  button.addEventListener('click',()=>punch(button.dataset.punch));
 }
-
-function makeEffect(className, text) {
-  const el = document.createElement('span');
-  el.className = className;
-  el.textContent = text;
-  ui.effect.appendChild(el);
-}
-
-function triggerAnimation(id, direction) {
-  const ch = CHARACTERS[id];
-  if (state.animationTimer !== null) clearTimeout(state.animationTimer);
-  ui.effect.replaceChildren();
-  ui.arena.classList.remove('hit-left', 'hit-front', 'hit-right');
-  void ui.arena.offsetWidth; // 연타해도 흔들림 애니메이션을 다시 시작
-  ui.arena.classList.add(`hit-${direction}`);
-
-  makeEffect(`fist fist--${direction}`, '👊');
-  makeEffect(`impact-text impact-text--${direction}`, ch.impact);
-  if (ch.emotion === 'angry') makeEffect('effect-emote', '💢');
-  if (ch.emotion === 'sad') {
-    makeEffect('tear tear--left', '💧');
-    makeEffect('tear tear--right', '💧');
-  }
-  if (ch.emotion === 'flat') makeEffect('effect-emote effect-emote--flat', '〰️');
-
-  state.animationTimer = setTimeout(() => {
-    ui.arena.classList.remove('hit-left', 'hit-front', 'hit-right');
-    ui.effect.replaceChildren();
-    state.animationTimer = null;
-  }, 1000);
-}
-
-let audioContext;
-function playArcadeSound() {
-  if (!state.sound) return;
-  try {
-    const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextCtor) return;
-    audioContext ??= new AudioContextCtor();
-    if (audioContext.state === 'suspended') audioContext.resume();
-    const t = audioContext.currentTime;
-    const osc = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(155, t);
-    osc.frequency.exponentialRampToValueAtTime(65, t + 0.11);
-    gain.gain.setValueAtTime(0.0001, t);
-    gain.gain.exponentialRampToValueAtTime(0.08, t + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.13);
-    osc.connect(gain).connect(audioContext.destination);
-    osc.start(t);
-    osc.stop(t + 0.14);
-  } catch { /* 사운드가 금지된 환경에서는 무음 */ }
-}
-
-function renderLog() {
-  ui.log.replaceChildren();
-  if (state.history.length === 0) {
-    const empty = document.createElement('li');
-    empty.className = 'empty-log';
-    empty.textContent = '아직 아무 일도 없어요. 👀';
-    ui.log.appendChild(empty);
-    return;
-  }
-  state.history.slice(0, 5).forEach(item => {
-    const li = document.createElement('li');
-    const line = document.createElement('span');
-    line.className = 'log-quote';
-    line.textContent = `${item.name} · “${item.response}”`;
-    const direction = document.createElement('span');
-    direction.className = 'direction';
-    direction.textContent = DIRECTIONS[item.direction];
-    li.append(line, direction);
-    ui.log.appendChild(li);
-  });
-}
-
-function punch(direction) {
-  if (!Object.hasOwn(DIRECTIONS, direction)) return;
-  const id = state.selected;
-  const ch = CHARACTERS[id];
-  const response = nextResponse(id);
-  state.counts[id] += 1;
-  state.history.unshift({ name: ch.name, direction, response });
-  if (state.history.length > 5) state.history.length = 5;
-  setSpeech(response);
-  triggerAnimation(id, direction);
-  playArcadeSound();
-  refreshScores();
-  renderLog();
-}
-
-$$('[data-character]').filter(b => b.matches('button')).forEach(button => {
-  button.addEventListener('click', () => selectCharacter(button.dataset.character));
+document.addEventListener('keydown',e=>{
+  if(e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;
+  if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName))return;
+  const direction={a:'left',s:'front',d:'right'}[e.key.toLowerCase()];
+  if(direction){e.preventDefault();punch(direction);}
 });
-$$('[data-direction]').forEach(button => {
-  button.addEventListener('click', () => punch(button.dataset.direction));
-});
-document.addEventListener('keydown', event => {
-  if (event.altKey || event.ctrlKey || event.metaKey || event.repeat) return;
-  if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) return;
-  const direction = { a: 'left', s: 'front', d: 'right' }[event.key.toLowerCase()];
-  if (direction) { event.preventDefault(); punch(direction); }
-});
-ui.sound.addEventListener('change', () => { state.sound = ui.sound.checked; });
-ui.reset.addEventListener('click', () => {
-  state.counts = { beoreok: 0, abang: 0, flat: 0 };
-  state.history = [];
-  state.lastResponseIndex = { beoreok: -1, abang: -1, flat: -1 };
-  setSpeech('기록을 싹 지웠어요!');
-  if (state.animationTimer !== null) clearTimeout(state.animationTimer);
-  state.animationTimer = null;
-  ui.arena.classList.remove('hit-left', 'hit-front', 'hit-right');
-  ui.effect.replaceChildren();
-  refreshScores();
-  renderLog();
-});
-
-// 각 캐릭터 카드도 PNG 업로드 시 자동 변경
-$$('.character-option').forEach(button => {
-  const id = button.dataset.character;
-  const img = button.querySelector('img');
-  upgradeImageIfAvailable(img, id);
-});
-selectCharacter('beoreok');
-renderLog();
+selectCharacter(selected);
