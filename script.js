@@ -23,7 +23,7 @@ let audioCtx = null;
 const responseIndex = {flat:-1, beoreok:-1, abang:-1};
 
 const basePaths = id => [`${id}.png`, `characters/${id}.png`];
-const reactionPath = (id,direction) => `reactions/${id}-${direction}.webp`;
+const reactionPath = (id,direction) => `${id}-${direction}.webp`;
 
 /** Show first existing image; stale asynchronous image loads may not overwrite a newer choice. */
 function setPortrait(paths, token, isReaction=false, idx=0) {
