@@ -54,15 +54,15 @@
         <h2>캐릭터 선택</h2>
         <div class="choices">
           <button class="character-option" data-character="flat" type="button" aria-pressed="false">
-            <span class="thumb"><img src="flat.png" alt=""></span>
+            <span class="thumb"><img src="flat.png?v=20261104-defaults-v5" alt=""></span>
             <span><strong>평평이</strong><small>😐 으악!</small></span>
           </button>
           <button class="character-option active" data-character="beoreok" type="button" aria-pressed="true">
-            <span class="thumb"><img src="beoreok.png" alt=""></span>
+            <span class="thumb"><img src="beoreok.png?v=20261104-defaults-v5" alt=""></span>
             <span><strong>버럭씨</strong><small>💢 장난하냐!</small></span>
           </button>
           <button class="character-option" data-character="abang" type="button" aria-pressed="false">
-            <span class="thumb"><img src="abang.png" alt=""></span>
+            <span class="thumb"><img src="abang.png?v=20261104-defaults-v5" alt=""></span>
             <span><strong>아방이</strong><small>💧 아파....</small></span>
           </button>
         </div>
@@ -74,7 +74,7 @@
           <div class="speech" id="speech" role="status" aria-live="polite">왜 불렀는데?</div>
           <div class="portrait-space">
             <div class="portrait-glow"></div>
-            <img id="portrait" class="portrait" src="beoreok.png" alt="버럭씨" draggable="false">
+            <img id="portrait" class="portrait" src="beoreok.png?v=20261104-defaults-v5" alt="버럭씨" draggable="false">
             <div id="effects" class="effects" aria-hidden="true"></div>
           </div>
         </section>
@@ -103,7 +103,7 @@
       </div>
       <p class="comments-note">댓글을 쓰려면 GitHub 계정으로 로그인해야 해요.</p>
     </section>
-    <footer>JUST FOR FUN · v4 FIX</footer>
+    <footer>JUST FOR FUN · v5</footer>
   </div>
 <script>
 /**
@@ -130,7 +130,7 @@ let portraitRequest = 0;
 let audioCtx = null;
 const responseIndex = {flat:-1, beoreok:-1, abang:-1};
 
-const basePaths = id => [`${id}.png`, `characters/${id}.png`];
+const basePaths = id => [`${id}.png?v=20261104-defaults-v5`, `characters/${id}.png?v=20261104-defaults-v5`];
 // 사진이 저장소 루트에 있어도, reactions 폴더에 있어도 자동으로 찾아요.
 const reactionPaths = (id,direction) => [
   `${id}-${direction}.webp`,
