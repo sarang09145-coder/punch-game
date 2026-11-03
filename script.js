@@ -5,8 +5,8 @@
  */
 const CHARACTERS = {
   flat: {name:'평평이',intro:'......',responses:['으악!','으악, 으악!'],impact:'퐁!',emotion:'flat'},
-  beoreok: {name:'버럭씨',intro:'왜 불렀는데?',responses:['갑자기 왜 때려!','장난하냐!'],impact:'퍽!',emotion:'angry'},
-  abang: {name:'아방이',intro:'나... 왜 불렀어?',responses:['왜 그래...','아파....'],impact:'콩!',emotion:'sad'}
+  beoreok: {name:'버럭씨',intro:'왜 불렀는데?',responses:['갑자기 왜?','ㅋ 재밌네','너 미쳤어?'],impact:'퍽!',emotion:'angry'},
+  abang: {name:'아방이',intro:'나... 왜 불렀어?',responses:['왜 그래...','아파....','내가 잘못했어...'],impact:'콩!',emotion:'sad'}
 };
 const DIRECTIONS = ['left','front','right'];
 const REACTION_MS = 1050; // 사진이 유지되는 시간: 1.05초
