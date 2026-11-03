@@ -6,8 +6,43 @@
   <meta name="theme-color" content="#f6f6f8">
   <meta name="description" content="세 캐릭터의 코믹한 펀치 리액션 미니게임">
   <title>당신 안의 S성향을 꺼내보세요</title>
-  <link rel="stylesheet" href="style.css">
-  <script defer src="script.js"></script>
+  <style>
+:root{font-family:system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:#151515;background:#f6f6f8;font-synthesis:none;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #7c81ff;outline-offset:3px}a{color:inherit;text-decoration:none}.site{max-width:1140px;padding:0 22px;margin:0 auto}.topbar{border-bottom:1px solid #e6e6ed;display:flex;align-items:center;justify-content:space-between;padding:23px 0 18px;font-size:11px;color:#888891;letter-spacing:1.5px;font-weight:800}.logo{color:#181818;font-size:16px;letter-spacing:.5px}.site>h1{text-align:center;letter-spacing:-2px;font-size:clamp(29px,4.2vw,49px);line-height:1.27;margin:35px 0 33px;font-weight:900}.site>h1 span{box-shadow:inset 0 -.24em 0 #d7d6ef}
+.game{display:grid;grid-template-columns:242px minmax(0,1fr);gap:19px;align-items:start}.chooser,.stage,.controls,.comments{background:#fff;border:1px solid #e5e5ed;border-radius:20px}.chooser{padding:18px}.chooser h2,.controls h2{font-size:18px;letter-spacing:-.5px;margin:0 0 17px}.choices{display:grid;gap:11px}.character-option{width:100%;min-width:0;display:flex;align-items:center;gap:12px;text-align:left;padding:9px;border-radius:13px;background:#f7f7fa;border:1px solid #eeeef2;color:#131313}.character-option:hover{background:#ececf2}.character-option.active{border:2px solid #111;background:#f3f3f6;padding:8px}.thumb{width:65px;height:80px;flex-shrink:0;border-radius:9px;background:#eeeef3;overflow:hidden;display:grid;place-items:end center}.thumb img{height:100%;width:100%;object-fit:contain;object-position:center bottom}.character-option strong,.character-option small{display:block}.character-option strong{font-size:16px}.character-option small{color:#71717c;margin-top:7px;font-size:12px}
+.play-column{min-width:0}.stage{height:465px;position:relative;overflow:hidden;isolation:isolate;background:#fefeff}.stage-top{display:flex;justify-content:space-between;align-items:center;padding:18px 21px;position:relative;z-index:3}.stage-top strong{font-size:15px}.stage-top span{color:#a0a0aa;letter-spacing:1.2px;font-size:10px}.speech{position:absolute;z-index:5;left:50%;top:69px;transform:translateX(-50%);white-space:nowrap;text-align:center;max-width:92%;padding:12px 21px;background:#151515;color:#fff;font-size:18px;font-weight:850;border-radius:22px;box-shadow:0 8px 15px #0001}.speech:after{content:'';position:absolute;left:50%;bottom:-7px;transform:translateX(-50%) rotate(45deg);width:14px;height:14px;background:#151515}.speech.pop{animation:speech-pop .26s ease-out}.portrait-space{position:absolute;inset:116px 0 0;display:flex;justify-content:center;align-items:flex-end}.portrait-glow{position:absolute;z-index:0;border-radius:50%;width:340px;height:340px;max-width:80%;top:18px;background:#f0f0f5}.portrait{position:relative;z-index:2;object-fit:contain;object-position:center bottom;width:min(420px,82%);height:calc(100% + 10px);filter:drop-shadow(0 6px 12px #0002);transform-origin:50% 85%;pointer-events:none;user-select:none}.stage.hit-left .portrait{animation:hit-left .55s ease-out}.stage.hit-right .portrait{animation:hit-right .55s ease-out}.stage.hit-front .portrait{animation:hit-front .55s ease-out}.effects{position:absolute;inset:0;z-index:4;pointer-events:none}.fist{position:absolute;font-size:62px;top:37%;animation:fist .55s both}.fist--left{left:8%}.fist--front{left:46%;top:52%}.fist--right{right:8%;transform:scaleX(-1)}.impact{position:absolute;top:30%;left:49%;font-size:65px;font-weight:1000;color:#fff;text-shadow:-3px -3px #111,3px -3px #111,-3px 3px #111,3px 3px #111,5px 7px #8585a8;animation:burst .55s both}.emote{position:absolute;right:17%;top:6%;font-size:72px;animation:burst .75s both}.tear{position:absolute;font-size:43px;top:43%;animation:drop .95s both}.tear.left{left:35%}.tear.right{right:34%;animation-delay:.1s}
+.controls{padding:20px;margin-top:16px}.punch-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.punch-options button{min-height:93px;border-radius:13px;background:#f5f5f8;border:1px solid #e7e7ee;color:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-weight:800;font-size:14px}.punch-options button:hover{background:#eaeaef}.punch-options button.primary{background:#17171a;border-color:#17171a;color:#fff}.punch-options button.primary:hover{background:#37373a}.punch-options button span{font-size:29px}.punch-options button small{font-size:10px;opacity:.6;font-weight:500}.sound{display:flex;align-items:center;gap:8px;margin-top:16px;color:#777781;font-size:12px;cursor:pointer}.sound input{accent-color:#171717}
+.comments{padding:28px 30px;margin-top:23px}.comments-title h2{font-size:23px;letter-spacing:-.5px;margin:0}.comments-title p{color:#73737c;font-size:13px;margin:9px 0 18px}.comments-widget{min-height:165px}.comments-widget .utterances{max-width:100%}.comments-note{font-size:11px;color:#92929b;margin-top:6px}footer{text-align:center;padding:29px 0 34px;color:#a4a4ad;letter-spacing:2px;font-size:10px}
+@keyframes hit-left{0%,100%{transform:translateX(0) rotate(0)}26%{transform:translateX(28px) rotate(8deg)}55%{transform:translateX(-8px) rotate(-3deg)}75%{transform:translateX(4px) rotate(1deg)}}
+@keyframes hit-right{0%,100%{transform:translateX(0) rotate(0)}26%{transform:translateX(-28px) rotate(-8deg)}55%{transform:translateX(8px) rotate(3deg)}75%{transform:translateX(-4px) rotate(-1deg)}}
+@keyframes hit-front{0%,100%{transform:scale(1)}25%{transform:scale(.91) translateY(12px)}48%{transform:scale(1.06) translateY(-7px)}72%{transform:scale(.98)}}
+@keyframes speech-pop{0%{opacity:.45;transform:translateX(-50%) scale(.88)}100%{opacity:1;transform:translateX(-50%) scale(1)}}
+@keyframes fist{0%{opacity:0;scale:.5}28%{opacity:1;scale:1.3}68%{opacity:1;scale:1}100%{opacity:0;scale:.85}}
+@keyframes burst{0%{opacity:0;scale:.5}30%{opacity:1;scale:1.15}70%{opacity:1;scale:1}100%{opacity:0;scale:1.25}}
+@keyframes drop{0%{opacity:0;transform:translateY(-15px)}35%{opacity:1}100%{opacity:0;transform:translateY(110px)}}
+@media(max-width:760px){.site{padding:0 12px}.site>h1{margin:27px 0 25px}.game{grid-template-columns:1fr}.chooser{padding:14px}.choices{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.character-option{padding:8px 5px;flex-direction:column;text-align:center;gap:5px}.character-option.active{padding:7px 4px}.thumb{width:100%;height:90px}.character-option strong{font-size:13px}.character-option small{font-size:10px;line-height:1.4;margin-top:4px}.stage{height:418px}.portrait-space{inset:110px 0 0}.portrait{width:90%;height:calc(100% + 10px)}.speech{top:68px;font-size:16px}.comments{padding:24px 16px}.topbar{padding:18px 0 14px}}
+@media(max-width:360px){.punch-options button{font-size:12px}.thumb{height:75px}.stage{height:385px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* Reaction photos are shown a little larger than the transparent idle portraits.
+   White backgrounds blend into the minimal stage, while all photos retain their original framing. */
+.stage.show-reaction{background:#fdfdfe}
+.portrait.is-reaction{
+  width:min(480px,94%);
+  height:calc(100% + 12px);
+  object-fit:cover;
+  object-position:center 28%;
+  filter:none;
+  border-radius:12px 12px 0 0;
+}
+/* Direction-specific image already depicts movement; avoid animating an additional large impact. */
+.stage.show-reaction .portrait.is-reaction{animation:none}
+@media(max-width:760px){
+  .portrait.is-reaction{width:min(410px,96%);object-position:center 28%}
+}
+
+</style>
+  
 </head>
 <body>
   <div class="site">
@@ -68,7 +103,187 @@
       </div>
       <p class="comments-note">댓글을 쓰려면 GitHub 계정으로 로그인해야 해요.</p>
     </section>
-    <footer>JUST FOR FUN · MADE IN 2026</footer>
+    <footer>JUST FOR FUN · v4 FIX</footer>
   </div>
+<script>
+/**
+ * 정적 웹사이트용 캐릭터 이미지 리액션 게임.
+ * 기본 사진은 저장소 루트의 flat.png / beoreok.png / abang.png
+ * 반응 사진 9장은 reactions/<캐릭터>-<방향>.webp 에서 불러옵니다.
+ */
+const CHARACTERS = {
+  flat: {name:'평평이',intro:'......',responses:['으악!','으악, 으악!'],impact:'퐁!',emotion:'flat'},
+  beoreok: {name:'버럭씨',intro:'왜 불렀는데?',responses:['갑자기 왜 때려!','장난하냐!'],impact:'퍽!',emotion:'angry'},
+  abang: {name:'아방이',intro:'나... 왜 불렀어?',responses:['왜 그래...','아파....'],impact:'콩!',emotion:'sad'}
+};
+const DIRECTIONS = ['left','front','right'];
+const REACTION_MS = 1700; // 반응 사진이 유지되는 시간: 1.7초
+const stage = document.querySelector('#stage');
+const portrait = document.querySelector('#portrait');
+const speech = document.querySelector('#speech');
+const effects = document.querySelector('#effects');
+const characterName = document.querySelector('#character-name');
+const soundToggle = document.querySelector('#sound');
+let selected = 'beoreok';
+let animationTimer = null;
+let portraitRequest = 0;
+let audioCtx = null;
+const responseIndex = {flat:-1, beoreok:-1, abang:-1};
+
+const basePaths = id => [`${id}.png`, `characters/${id}.png`];
+// 사진이 저장소 루트에 있어도, reactions 폴더에 있어도 자동으로 찾아요.
+const reactionPaths = (id,direction) => [
+  `${id}-${direction}.webp`,
+  `reactions/${id}-${direction}.webp`
+];
+
+/** Show first existing image; stale asynchronous image loads may not overwrite a newer choice. */
+function setPortrait(paths, token, isReaction=false, idx=0) {
+  if (idx >= paths.length) {
+    if (token === portraitRequest && isReaction) {
+      // If the update was incomplete, keep a valid base photo instead of a broken image.
+      say('반응 사진을 찾지 못했어요');
+      setPortrait(basePaths(selected), token, false);
+    }
+    return;
+  }
+  const prefetch = new Image();
+  prefetch.onload = () => {
+    if (token !== portraitRequest) return;
+    portrait.src = paths[idx];
+    portrait.classList.toggle('is-reaction', isReaction);
+    stage.classList.toggle('show-reaction', isReaction);
+  };
+  prefetch.onerror = () => {
+    if (token === portraitRequest) setPortrait(paths,token,isReaction,idx+1);
+  };
+  prefetch.src = paths[idx];
+}
+
+function showBase(id) {
+  const token = ++portraitRequest;
+  portrait.classList.remove('is-reaction');
+  stage.classList.remove('show-reaction');
+  setPortrait(basePaths(id),token);
+}
+
+// Each small card always shows its base portrait.
+for(const img of document.querySelectorAll('.thumb img')) {
+  const id=img.closest('[data-character]').dataset.character;
+  let index=0;
+  const paths=basePaths(id);
+  function attempt() {
+    if(index>=paths.length) return;
+    const trial=new Image();
+    trial.onload=()=>{img.src=paths[index];};
+    trial.onerror=()=>{index++;attempt();};
+    trial.src=paths[index];
+  }
+  attempt();
+}
+
+// Preload so photos can switch immediately when a punch is clicked.
+for(const id of Object.keys(CHARACTERS)) {
+  for(const direction of DIRECTIONS) {
+    const img=new Image();
+    img.src=reactionPaths(id,direction)[0];
+  }
+}
+
+function selectCharacter(id) {
+  if (!Object.hasOwn(CHARACTERS,id)) return;
+  selected=id;
+  clearTimeout(animationTimer);
+  stage.classList.remove('hit-left','hit-front','hit-right');
+  effects.replaceChildren();
+  for(const button of document.querySelectorAll('[data-character]')) {
+    const active = button.dataset.character===id;
+    button.classList.toggle('active',active);
+    button.setAttribute('aria-pressed',String(active));
+  }
+  portrait.alt=CHARACTERS[id].name;
+  characterName.textContent=CHARACTERS[id].name;
+  say(CHARACTERS[id].intro,false);
+  showBase(id);
+}
+
+function say(text, animate=true) {
+  speech.textContent=text;
+  speech.classList.remove('pop');
+  if(animate){void speech.offsetWidth; speech.classList.add('pop');}
+}
+function addEffect(cssClass,text) {
+  const el=document.createElement('span');
+  el.className=cssClass;
+  el.textContent=text;
+  effects.appendChild(el);
+}
+function sound() {
+  if(!soundToggle.checked) return;
+  try {
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC) return;
+    audioCtx ??= new AC();
+    if(audioCtx.state==='suspended')audioCtx.resume();
+    const t=audioCtx.currentTime;
+    const osc=audioCtx.createOscillator();
+    const gain=audioCtx.createGain();
+    osc.type='triangle';
+    osc.frequency.setValueAtTime(140,t);
+    osc.frequency.exponentialRampToValueAtTime(62,t+.12);
+    gain.gain.setValueAtTime(.0001,t);
+    gain.gain.exponentialRampToValueAtTime(.065,t+.01);
+    gain.gain.exponentialRampToValueAtTime(.0001,t+.14);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start(t); osc.stop(t+.15);
+  } catch(_) { /* Play without sound when the browser blocks audio. */ }
+}
+function punch(direction) {
+  if(!DIRECTIONS.includes(direction)) return;
+  const id=selected;
+  const character=CHARACTERS[id];
+  responseIndex[id] = (responseIndex[id]+1)%character.responses.length;
+  say(character.responses[responseIndex[id]]);
+  clearTimeout(animationTimer);
+  effects.replaceChildren();
+  stage.classList.remove('hit-left','hit-front','hit-right');
+  void stage.offsetWidth;
+  stage.classList.add('hit-'+direction);
+
+  // Switch to the exact matching photo (full frontal / left / right).
+  const token=++portraitRequest;
+  setPortrait(reactionPaths(id,direction),token,true);
+
+  // Photos already contain the incoming hand; don't draw a second cartoon fist.
+  if(character.emotion==='angry') addEffect('emote','💢');
+  if(character.emotion==='sad') {
+    addEffect('tear left','💧');
+    addEffect('tear right','💧');
+  }
+  sound();
+
+  animationTimer=setTimeout(()=>{
+    // Character may have changed or another punch may have started.
+    if(selected!==id||token!==portraitRequest) return;
+    effects.replaceChildren();
+    stage.classList.remove('hit-left','hit-front','hit-right');
+    showBase(id);
+  },REACTION_MS);
+}
+
+for(const button of document.querySelectorAll('[data-character]'))
+  button.addEventListener('click',()=>selectCharacter(button.dataset.character));
+for(const button of document.querySelectorAll('[data-punch]'))
+  button.addEventListener('click',()=>punch(button.dataset.punch));
+
+document.addEventListener('keydown',e=>{
+  if(e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;
+  if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName))return;
+  const direction={a:'left',s:'front',d:'right'}[e.key.toLowerCase()];
+  if(direction){e.preventDefault();punch(direction);}
+});
+selectCharacter(selected);
+
+</script>
 </body>
 </html>
